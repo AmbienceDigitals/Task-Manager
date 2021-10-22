@@ -16,10 +16,7 @@ const getTask = asyncWrapper ( async (req, res, next) => {
     
     // content to return if there is no task with the params id 
     if(!task) {
-        const error = new Error('Not Found');
-        error.status = 404;
-        return next(error)
-        return res.status(404).json({msg: `No task with id : ${taskID}`})
+        return next(createCustomError(`No task with id : ${taskID}`, 404))
     }
 });
 
@@ -39,7 +36,7 @@ const updateTask = asyncWrapper ( async (req, res) => {
         {new: true,
         runValidators: true})
         if(!task) {
-            return res.status(404).json({msg: `No task with id : ${taskID}`})
+            return next(createCustomError(`No task with id : ${taskID}`, 404))
         }
         res.status(200).json({task})
 });
@@ -51,7 +48,7 @@ const deleteTask = asyncWrapper ( async (req, res) => {
         
         // content to return if there is no task with the params id 
         if(!task) {
-            return res.status(404).json({msg: `No task with id : ${taskID}`})
+            return next(createCustomError(`No task with id : ${taskID}`, 404))
             }
         res.status(200).json({task})  
 });
